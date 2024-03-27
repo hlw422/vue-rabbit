@@ -1,20 +1,12 @@
 <script setup>
 import { useScroll } from "@vueuse/core";
-import { getCategoryAPI } from "@/apis/layout";
 const { y } = useScroll(window);
 
-import{ref,onMounted}from 'vue'
-const getCategory=async()=>{
-  const res=await getCategoryAPI()
-  console.log(res)
-  categoryList.value=res.result
-}
+//使用pinia
+import {useCategoryStore}from '@/stores/category'
 
-const categoryList=ref([])
+const categoryStore=useCategoryStore()
 
-onMounted(()=>{
-  getCategory()
-})
 </script>
 
 <template>
@@ -24,7 +16,7 @@ onMounted(()=>{
       <RouterLink class="logo" to="/" />
       <!-- 导航区域 -->
       <ul class="app-header-nav">
-        <li class="home" v-for="item in categoryList" :key="item.id">
+        <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
